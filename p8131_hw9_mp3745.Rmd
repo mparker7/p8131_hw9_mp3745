@@ -8,13 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 library(viridis)
-library(nnet)
-library(MASS)
-library(pscl)
-library(nlme)
-library(lme4)
-library(readxl)
-library(gee)
+library(KMsurv)
+library(survival)
+library(survminer)
 
 knitr::opts_chunk$set(
 	echo = TRUE,
@@ -31,3 +27,35 @@ scale_colour_discrete = scale_colour_viridis_d
 scale_fill_discrete = scale_fill_viridis_d
 theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
+
+## Problem 1
+
+Done by hand
+
+## Problem 2
+
+Done by hand
+
+## Problem 3
+
+Read in tongue data from KMsurv package
+```{r}
+data("tongue")
+```
+
+KM survival function
+```{r}
+# KM survival
+km = survfit(Surv(time, delta) ~ type, data = tongue, conf.type = 'log')
+
+# Plot survival function
+ggsurvplot(km, conf.int = TRUE)
+```
+
+Estimated 1 year survival rate and 95% CI
+```{r}
+surv = summary(km, time = 365)
+```
+
+For tumor type 1, the estimated 1 year survival rate is `r surv$surv` with a 95% CI of (`r surv$lower`, `r surv$upper`). For tumor type 2, we cannot estimate the survival rate at 1 year because we do not have data on anyone that survives at least 1 year.
+
