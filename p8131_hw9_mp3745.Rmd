@@ -54,8 +54,10 @@ ggsurvplot(km, conf.int = TRUE)
 
 Estimated 1 year survival rate and 95% CI
 ```{r}
-surv = summary(km, time = 365)
+surv = summary(km, time = 52)
+
+surv$surv[2]
 ```
 
-For tumor type 1, the estimated 1 year survival rate is `r surv$surv` with a 95% CI of (`r surv$lower`, `r surv$upper`). For tumor type 2, we cannot estimate the survival rate at 1 year because we do not have data on anyone that survives at least 1 year.
+For tumor type 1, the estimated 1 year survival rate is `r surv$surv[1]` with a 95% CI of (`r surv$lower[1]`, `r surv$upper[1]`). For tumor type 2, the estimated 1 year survival rate is `r surv$surv[2]` with a 95% CI of (`r surv$lower[2]`, `r surv$upper[2]`).
 
